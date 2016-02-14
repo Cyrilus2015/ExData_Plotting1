@@ -1,0 +1,11 @@
+Sys.setlocale(locale = "USA")
+fn <- "./data/household_power_consumption.txt"
+data <- read.table(fn, header = T, sep = ";", stringsAsFactors = F)
+dfr <- subset(data, (data$Date == "1/2/2007") | (data$Date == "2/2/2007"))
+dfr$DateTime <- paste(dfr$Date, dfr$Time)
+dfr$DateTime <- strptime(dfr$DateTime,"%d/%m/%Y %H:%M:%S") 
+dfr$Global_active_power <- as.numeric(dfr$Global_active_power)
+par(mfrow=c(1,1))
+plot(dfr$DateTime, dfr$Global_active_power, type="l", ylab="Global Active Power (kilowatts)", xlab="")
+dev.copy(png, file="plot2.png", height=480, width=480)
+dev.off()
